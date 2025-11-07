@@ -1,65 +1,82 @@
 # 🏭 Diagnóstico OEE – Máquina 3 (Sistema MES Prodwin)
 
-## 📌 Situação e Objetivo
+## 📌 SITUAÇÃO
 
-Um cliente industrial procurou o suporte técnico relatando uma queda de produtividade na Injetora **Máquina 3**, com a suspeita de que o problema poderia estar no sistema MES.
+Um cliente industrial procurou o suporte técnico relatando que a Máquina 3 estava com queda de produtividade nas últimas semanas, suspeitando que o problema poderia estar no sistema MES. Além disso, o cliente solicitou apoio para entender a origem da falha.
 
-Com base nisso, realizei uma análise completa de dados (criando dados fictícios) utilizando **SQL** para o diagnóstico, e **Power BI** para a visualização, aplicando a fórmula de OEE (Overall Equipment Effectiveness) para confirmar a eficiência produtiva e propor soluções.
+Com base nisso, realizei uma análise de dados (criando dados fictícios) utilizando SQL e visualizando no Power BI, aplicando a fórmula de OEE (Overall Equipment Effectiveness) para confirmar a eficiência produtiva geral e comparar com a Máquina 3.
 
-## 🔹 Estrutura de Dados (Banco de Teste)
+## 🧩 ESTRUTURA DE DADOS (BANCO DE TESTE)
 
-Para a análise, foi criado um banco de teste simulado (`MES_Prodwin_Teste`) que representa a estrutura de um ambiente real de produção com as seguintes tabelas:
+Foi criado um banco simulado (`MES_Prodwin_Teste`) representando um ambiente real de produção com as tabelas:
 
-* **Maquinas**
-* **Producoes**
-* **Paradas**
+- `Maquinas`
+- `Producoes`
+- `Paradas`
 
-A Injetora 03 foi o foco da análise por apresentar desempenho consistentemente abaixo da média da fábrica.
+Foram incluídos dados de quatro máquinas: Prensa 01, Torno 02, Injetora 03 e Fresadora 04, sendo a Injetora 03 o foco da análise por apresentar desempenho inferior.
 
-## 🧮 Consultas SQL Aplicadas (A Origem do Dado)
+## 🧮 CONSULTAS SQL APLICADAS
 
-As consultas foram elaboradas para medir os três **pilares** do OEE, garantindo a precisão dos cálculos na origem:
+As consultas mediram os três componentes do OEE:
 
-* **Disponibilidade:** `tempo_operacao / tempo_disponivel`
-* **Performance:** `tempo_ciclo_padrao / tempo_ciclo_real`
-* **Qualidade:** `produtos_bons / (produtos_bons + retrabalhos + descartados)`
+- **Disponibilidade:** `tempo_operacao / tempo_disponivel`  
+- **Performance:** `tempo_ciclo_padrao / tempo_ciclo_real`  
+- **Qualidade:** `produtos_bons / (produtos_bons + retrabalhos + descartados)`  
 
-O OEE final foi obtido multiplicando os três fatores:
-$$OEE = Disponibilidade \times Performance \times Qualidade$$
+**OEE:** `Disponibilidade × Performance × Qualidade`
 
-**Consultas Críticas Adicionais:**
+Também foram geradas consultas para:
 
-* Total de paradas não planejadas.
-* **Quantidade de paradas sem motivo registrado** (Crucial para o diagnóstico).
+**Total de paradas não planejadas**
 
-Essas informações foram exportadas e integradas ao Power BI.
+**Quantidade de paradas sem motivo registrado**  
 
-## 📊 Dashboard no Power BI (A Visualização Estratégica)
+Esses dados foram integrados ao Power BI para análise visual.
 
-O painel foi desenvolvido em um layout limpo e de alto contraste, utilizando o **Laranja/Amarelo** para destacar os alertas:
+## 📊 DASHBOARD NO POWER BI
 
-1️⃣ **KPIs Globais da Fábrica:**
-* Exibição do OEE geral (~69,99%), Disponibilidade, Performance e Qualidade.
-* O destaque de cor foi aplicado em **Disponibilidade**, indicando o principal ponto de perda.
+O painel foi desenvolvido em layout escuro e limpo, dividido em quatro seções principais:
 
-2️⃣ **OEE por Máquina:**
-* Gráfico de barras comparando a eficiência das máquinas.
-* A **Máquina 3** apresenta o menor OEE, sendo o gargalo isolado (destacada em Laranja).
+- 1️⃣ **KPIs Globais da Fábrica**  
+  Indicadores de OEE geral (~69,99%), Disponibilidade, Performance e Qualidade.  
+  A cor de destaque foi aplicada em Disponibilidade, evidenciando o ponto crítico.
 
-3️⃣ **Paradas Não Planejadas – Causa Raiz:**
-* Gráfico de colunas/barras empilhadas mostrando a proporção de motivos.
-* A fatia **“Sem motivo”** (em Amarelo) evidencia a falha de registro no chão de fábrica.
+- 2️⃣ **OEE por Máquina**  
+  Gráfico de barras comparando a eficiência das máquinas.  
+  A Máquina 3 apresenta o menor OEE, confirmando o problema relatado.
 
-4️⃣ **Tempo Total Parado por Máquina:**
-* Gráfico de contraste comparando o tempo parado da Máquina 3 com a máquina mais produtiva (Prensa 01).
-* **Resultado:** A Máquina 3 ficou mais que o dobro do tempo parada (220 minutos) em relação à Prensa 01 (80 minutos).
+- 3️⃣ **Paradas Não Planejadas – Causa Raiz**  
+  Gráfico de pizza mostrando a proporção de motivos de parada.  
+  A fatia “Sem motivo” (em branco) evidencia falhas de registro no chão de fábrica.
 
-## ⚙️ Fórmulas Criadas no Power BI (DAX)
+- 4️⃣ **Tempo Total Parado por Máquina**  
+  Gráfico de barras comparando o tempo parado da Máquina 3 com a Máquina 01.  
+  Resultado: a Máquina 3 ficou mais que o dobro do tempo parada em relação à Prensa 01.
 
-As métricas foram replicadas no Power BI para acompanhamento em tempo real:
+## ⚙️ FÓRMULAS CRIADAS NO POWER BI (DAX)
 
-```dax
+```DAX
 Disponibilidade = DIVIDE(SUM(Producoes[tempo_operacao]), SUM(Producoes[tempo_disponivel]))
 Performance = DIVIDE(SUM(Producoes[tempo_ciclo_padrao]), SUM(Producoes[tempo_ciclo_real]))
 Qualidade = DIVIDE(SUM(Producoes[produtos_bons]), SUM(Producoes[produtos_bons]) + SUM(Producoes[produtos_descartados]))
 OEE = [Disponibilidade] * [Performance] * [Qualidade]
+Essas medidas foram aplicadas aos KPIs superiores, garantindo consistência entre SQL e Power BI.
+
+📈 INTERPRETAÇÃO DOS RESULTADOS
+A análise comprovou que o sistema MES Prodwin está operando normalmente.
+O problema de desempenho da Máquina 3 está ligado a falhas operacionais:
+
+Paradas não registradas corretamente
+
+Queda de disponibilidade
+
+Retrabalho acima da média
+
+Esses fatores explicam o baixo OEE e reforçam que o gargalo está no processo, não no sistema.
+
+## 🛠️ RECOMENDAÇÕES TÉCNICAS E OPERACIONAIS ##
+Refletir a importância de registrar corretamente o motivo das paradas.
+Dados incompletos distorcem relatórios e diagnósticos.
+
+Configurar o sistema MES para obrigar o preenchimento do motivo de parada antes de salvar o registro, evitando lacunas.
