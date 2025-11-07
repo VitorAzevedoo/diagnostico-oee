@@ -30,7 +30,7 @@ Também foram geradas consultas para:
 
 **Total de paradas não planejadas**
 
-**Quantidade de paradas sem motivo registrado**  
+**Paradas sem o motivo registrado**  
 
 Esses dados foram integrados ao Power BI para análise visual.
 
