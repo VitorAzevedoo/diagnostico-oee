@@ -16,7 +16,7 @@ Foi criado um banco simulado (`MES_Prodwin_Teste`) representando um ambiente rea
 
 Foram incluídos dados de quatro máquinas: Prensa 01, Torno 02, Injetora 03 e Fresadora 04, sendo a Injetora 03 o foco da análise por apresentar desempenho inferior.
 
-## 🧮 CONSULTAS SQL APLICADAS
+## 🧮 CONSULTAS SQL 
 
 As consultas mediram os três componentes do OEE:
 
@@ -56,27 +56,28 @@ O painel foi desenvolvido em layout escuro e limpo, dividido em quatro seções 
 
 ## ⚙️ FÓRMULAS CRIADAS NO POWER BI (DAX)
 
-```DAX
+DAX
 Disponibilidade = DIVIDE(SUM(Producoes[tempo_operacao]), SUM(Producoes[tempo_disponivel]))
 Performance = DIVIDE(SUM(Producoes[tempo_ciclo_padrao]), SUM(Producoes[tempo_ciclo_real]))
 Qualidade = DIVIDE(SUM(Producoes[produtos_bons]), SUM(Producoes[produtos_bons]) + SUM(Producoes[produtos_descartados]))
 OEE = [Disponibilidade] * [Performance] * [Qualidade]
 Essas medidas foram aplicadas aos KPIs superiores, garantindo consistência entre SQL e Power BI.
 
-📈 INTERPRETAÇÃO DOS RESULTADOS
+# 📈 INTERPRETAÇÃO DOS RESULTADOS
+
 A análise comprovou que o sistema MES Prodwin está operando normalmente.
-O problema de desempenho da Máquina 3 está ligado a falhas operacionais:
+O problema de desempenho da Máquina 3 está relacionado a falhas operacionais, como:
 
-Paradas não registradas corretamente
+*Paradas não registradas corretamente*
 
-Queda de disponibilidade
+*Queda na disponibilidade*
 
-Retrabalho acima da média
+*Os retrabalhos estão acima da média*
 
-Esses fatores explicam o baixo OEE e reforçam que o gargalo está no processo, não no sistema.
+Esses fatores explicam o baixo OEE e reforçam que o problema está no processo, não no sistema.
 
-## 🛠️ RECOMENDAÇÕES TÉCNICAS E OPERACIONAIS ##
-Refletir a importância de registrar corretamente o motivo das paradas.
-Dados incompletos distorcem relatórios e diagnósticos.
+# 🛠️ RECOMENDAÇÕES TÉCNICAS E OPERACIONAIS
 
-Configurar o sistema MES para obrigar o preenchimento do motivo de parada antes de salvar o registro, evitando lacunas.
+Registrar corretamente o motivo das paradas, porque dados incompletos podem distorcer relatórios e dificultar diagnósticos.
+
+Configurar o sistema MES para obrigar o preenchimento do motivo de parada antes de salvar o registro, evitando esses problemas.
