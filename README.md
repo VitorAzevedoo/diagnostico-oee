@@ -34,9 +34,9 @@ Também foram geradas consultas para:
 
 Esses dados foram integrados ao Power BI para análise visual.
 
-## 📊 DASHBOARD NO POWER BI
+## 📊  Gráficos e Layout
 
-O painel foi desenvolvido em layout escuro e limpo, dividido em quatro seções principais:
+O Layout e dashboard foram desenvolvidos em layout escuro e limpo, dividido em quatro seções principais:
 
 - 1️⃣ **KPIs Globais da Fábrica**  
   Indicadores de OEE geral (~69,99%), Disponibilidade, Performance e Qualidade.  
